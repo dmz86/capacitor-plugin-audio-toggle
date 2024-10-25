@@ -42,6 +42,10 @@ var capacitorAudioToggle = (function (exports, core) {
         async openAppSettings() {
             throw this.unimplemented('Not implemented on web.');
         }
+        addListener() {
+            throw this.unimplemented('Not implemented on web.');
+        }
+        ;
     }
 
     var web = /*#__PURE__*/Object.freeze({

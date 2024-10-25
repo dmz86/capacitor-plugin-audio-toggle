@@ -1,4 +1,4 @@
-import { WebPlugin } from '@capacitor/core';
+import {PluginListenerHandle, WebPlugin} from '@capacitor/core';
 
 import type { AudioTogglePlugin, DeviceName } from './definitions';
 
@@ -50,4 +50,9 @@ export class AudioToggleWeb extends WebPlugin implements AudioTogglePlugin {
   async openAppSettings(): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
+
+  addListener(
+  ): Promise<PluginListenerHandle> & PluginListenerHandle{
+    throw this.unimplemented('Not implemented on web.');
+  };
 }

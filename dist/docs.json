@@ -157,7 +157,7 @@
           "PluginListenerHandle",
           "DeviceName"
         ],
-        "slug": "addlisteneronchanges"
+        "slug": "addlisteneronchanges-"
       },
       {
         "name": "removeAllListeners",

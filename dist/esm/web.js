@@ -36,5 +36,9 @@ export class AudioToggleWeb extends WebPlugin {
     async openAppSettings() {
         throw this.unimplemented('Not implemented on web.');
     }
+    addListener() {
+        throw this.unimplemented('Not implemented on web.');
+    }
+    ;
 }
 //# sourceMappingURL=web.js.map

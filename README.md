@@ -25,7 +25,7 @@ npx cap sync
 * [`isBluetoothEnabled()`](#isbluetoothenabled)
 * [`openBluetoothSettings()`](#openbluetoothsettings)
 * [`openAppSettings()`](#openappsettings)
-* [`addListener('onChanges', ...)`](#addlisteneronchanges)
+* [`addListener('onChanges', ...)`](#addlisteneronchanges-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)

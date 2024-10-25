@@ -1,4 +1,4 @@
-import { WebPlugin } from '@capacitor/core';
+import { PluginListenerHandle, WebPlugin } from '@capacitor/core';
 import type { AudioTogglePlugin, DeviceName } from './definitions';
 export declare class AudioToggleWeb extends WebPlugin implements AudioTogglePlugin {
     selectDevice(): Promise<void>;
@@ -26,4 +26,5 @@ export declare class AudioToggleWeb extends WebPlugin implements AudioTogglePlug
     }>;
     openBluetoothSettings(): Promise<void>;
     openAppSettings(): Promise<void>;
+    addListener(): Promise<PluginListenerHandle> & PluginListenerHandle;
 }

@@ -8,9 +8,12 @@ import android.media.AudioDeviceInfo;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.angeloraso.plugins.audiotoggle.android.BuildWrapper;
 import com.angeloraso.plugins.audiotoggle.android.Logger;
+
 import java.util.List;
 
 public class AudioDeviceManager {
@@ -24,8 +27,8 @@ public class AudioDeviceManager {
     private final AudioManager audioManager;
     private final BuildWrapper build;
     private AudioFocusRequest audioRequest = null;
-    private AudioFocusRequestWrapper audioFocusRequest = new AudioFocusRequestWrapper();
-    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private final AudioFocusRequestWrapper audioFocusRequest = new AudioFocusRequestWrapper();
+    private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
     private boolean savedSpeakerphone = false;
     private int savedMode;
     public boolean isBluetoothConnected = false;
@@ -35,11 +38,11 @@ public class AudioDeviceManager {
     }
 
     public AudioDeviceManager(
-        AppCompatActivity appCompatActivity,
-        Context context,
-        Logger logger,
-        AudioManager audioManager,
-        BuildWrapper build
+            AppCompatActivity appCompatActivity,
+            Context context,
+            Logger logger,
+            AudioManager audioManager,
+            BuildWrapper build
     ) {
         this.appCompatActivity = appCompatActivity;
         this.context = context;
@@ -47,22 +50,22 @@ public class AudioDeviceManager {
         this.audioManager = audioManager;
         this.build = build;
         this.audioFocusChangeListener =
-            focusChange -> {
-                switch (focusChange) {
-                    case AudioManager.AUDIOFOCUS_GAIN:
-                        logger.d(TAG, "AUDIO FOCUS GAIN");
-                        break;
-                    case AudioManager.AUDIOFOCUS_LOSS:
-                        logger.d(TAG, "AUDIO FOCUS LOSS");
-                        break;
-                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        logger.d(TAG, "AUDIO FOCUS LOSS TRANSIENT");
-                        break;
-                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        logger.d(TAG, "AUDIO FOCUS LOSS TRANSIENT CAN DUCK");
-                        break;
-                }
-            };
+                focusChange -> {
+                    switch (focusChange) {
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            logger.d(TAG, "AUDIO FOCUS GAIN");
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            logger.d(TAG, "AUDIO FOCUS LOSS");
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                            logger.d(TAG, "AUDIO FOCUS LOSS TRANSIENT");
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            logger.d(TAG, "AUDIO FOCUS LOSS TRANSIENT CAN DUCK");
+                            break;
+                    }
+                };
     }
 
     public boolean hasEarpiece() {
@@ -75,7 +78,7 @@ public class AudioDeviceManager {
 
     public boolean hasSpeakerphone() {
         if (
-            build.getVersion() >= Build.VERSION_CODES.M && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUDIO_OUTPUT)
+                build.getVersion() >= Build.VERSION_CODES.M && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUDIO_OUTPUT)
         ) {
             return getAudioDevice(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER) != null;
         } else {
@@ -102,10 +105,10 @@ public class AudioDeviceManager {
                     if (isAndroid12()) {
                         AudioDeviceInfo deviceInfo = audioManager.getCommunicationDevice();
                         if (
-                            deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
-                            deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
-                            deviceInfo.getType() == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
-                            isBluetoothConnected
+                                deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
+                                        deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
+                                        deviceInfo.getType() == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
+                                        isBluetoothConnected
                         ) {
                             enableSpeakerphone();
                         }
@@ -156,10 +159,10 @@ public class AudioDeviceManager {
             if (deviceInfo.getType() == AudioDeviceInfo.TYPE_BUILTIN_EARPIECE && !isBluetoothConnected) {
                 audioManager.clearCommunicationDevice();
             } else if (
-                deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
-                deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
-                deviceInfo.getType() == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
-                isBluetoothConnected
+                    deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
+                            deviceInfo.getType() == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
+                            deviceInfo.getType() == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
+                            isBluetoothConnected
             ) {
                 AudioDeviceInfo speakerphoneDevice = getAudioDevice(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER);
                 if (speakerphoneDevice != null) {
@@ -269,7 +272,7 @@ public class AudioDeviceManager {
     }
 
     private boolean isAndroid12() {
-        return Build.VERSION.SDK_INT == Build.VERSION_CODES.S;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2;
     }
 
     private boolean isAndroid13OrNewer() {
