@@ -5,4 +5,12 @@ import Foundation
         print(value)
         return value
     }
+    
+    @objc public func enable(_ value: String) -> Void {
+        return
+    }
+    
+    @objc public func disable(_ value: String) -> Void {
+        return
+    }
 }
