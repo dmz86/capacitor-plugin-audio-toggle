@@ -22,15 +22,23 @@ public class AudioTogglePlugin: CAPPlugin {
     }
     
     @objc func disable(_ call: CAPPluginCall) {
-        call.resolve()
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setActive(false)
+        } catch {
+            call.reject("Error switching audio output: \(error.localizedDescription)")
+        }
     }
     
     @objc func selectDevice(_ call: CAPPluginCall) {
         let value = call.getString("device") ?? ""
         do {
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playAndRecord, mode: .default)
-            try audioSession.setActive(true)
+            if !audioSession.isOtherAudioPlaying {
+                try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
+                try audioSession.setActive(true)
+            }
+                        
 
             // Modifica l'uscita audio
             if (value == "earpiece"){
