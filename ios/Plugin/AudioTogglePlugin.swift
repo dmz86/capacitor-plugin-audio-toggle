@@ -9,7 +9,7 @@ import AVFoundation
 @objc(AudioTogglePlugin)
 public class AudioTogglePlugin: CAPPlugin {
     private let implementation = AudioToggle()
-
+    
     @objc func echo(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
         call.resolve([
@@ -31,25 +31,27 @@ public class AudioTogglePlugin: CAPPlugin {
     }
     
     @objc func selectDevice(_ call: CAPPluginCall) {
-        let value = call.getString("device") ?? ""
-        do {
-            let audioSession = AVAudioSession.sharedInstance()
-            if !audioSession.isOtherAudioPlaying {
-                try audioSession.setCategory(.playAndRecord, mode: .default, options: [])
-                try audioSession.setActive(true)
-            }
-                        
+        let mode = call.getString("device") ?? ""
+        let session = AVAudioSession.sharedInstance()
 
-            // Modifica l'uscita audio
-            if (value == "earpiece"){
-                try audioSession.overrideOutputAudioPort(.none)
-            }else{
-                try audioSession.overrideOutputAudioPort(.speaker)
-            }
-            
-            call.resolve()
-        } catch {
-            call.reject("Error switching audio output: \(error.localizedDescription)")
-        }
+                do {
+                    switch mode {
+                    case "earpiece":
+                        try session.setCategory(.playAndRecord)
+                        try session.overrideOutputAudioPort(.none)
+                    case "speakerphone", "ringtone":
+                        try session.setCategory(.playAndRecord)
+                        try session.overrideOutputAudioPort(.speaker)
+                    case "normal":
+                        try session.setCategory(.soloAmbient)
+                    default:
+                        break
+                    }
+                    call.resolve()
+                } catch {
+                    call.reject("Error switching audio output: \(error.localizedDescription)")
+                }
     }
+    
+    
 }
